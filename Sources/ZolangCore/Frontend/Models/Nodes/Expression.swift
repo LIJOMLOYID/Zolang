@@ -449,7 +449,7 @@ public indirect enum Expression: Node {
             ]
         case .dot(let lExpr, let rExpr):
             return [
-                "expressionType": "operation",
+                "expressionType": "dot",
                 "leftExpression": try lExpr.compile(buildSetting: buildSetting, fileManager: fm),
                 "rightExpression": try rExpr.compile(buildSetting: buildSetting, fileManager: fm)
             ]
@@ -466,9 +466,6 @@ public indirect enum Expression: Node {
     }
     
     public static func ~= (left: Expression, right: Expression) -> Bool {
-        /*
-         case operation(Expression, String, Expression)
-         */
         switch (left, right) {
         case (.textLiteral(let l), .textLiteral(let r)),
              (.integerLiteral(let l), .integerLiteral(let r)),
