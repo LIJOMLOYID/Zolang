@@ -16,12 +16,6 @@ public struct DescriptionList: Node {
         var tokens = tokens
         context.line += tokens.trimLeadingNewlines()
         
-        guard tokens.first?.type == .identifier else {
-            throw ZolangError(type: .missingIdentifier,
-                              file: context.file,
-                              line: context.line)
-        }
-        
         var properties: [(Bool, String?, String, Type, Expression?)] = []
         var functions: [(Bool, String?, String, Function)] = []
 
@@ -236,6 +230,7 @@ public struct DescriptionList: Node {
             }
         
         let props = try properties
+            .filter { $0.isStatic == false }
             .map { (arg) -> [String: Any] in
                 let (_, accessLimitation, name, type, defaultValue) = arg
                 var ctx: [String: Any] = [
