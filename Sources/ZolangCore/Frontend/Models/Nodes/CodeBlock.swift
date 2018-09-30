@@ -11,7 +11,6 @@ import PathKit
 
 public indirect enum CodeBlock: Node {
     case empty
-    case comment(String)
     case expression(Expression)
     case variableDeclaration(VariableDeclaration)
     case variableMutation(VariableMutation)
@@ -44,7 +43,8 @@ public indirect enum CodeBlock: Node {
 
         switch prefixType {
         case .comment:
-            left = .comment(workingTokens.first!.payload!)
+            // Comments are skipped for now
+            left = .empty
             leftEndIndex = 1
         case .expression:
             guard let range = workingTokens.rangeOfExpression() else {
@@ -68,7 +68,7 @@ public indirect enum CodeBlock: Node {
             
             left = .ifStatement(try IfStatement(tokens: Array(workingTokens[range]), context: &context))
         case .modelDescription:
-            guard workingTokens.hasPrefixTypes(types: [.describe, .identifier, .curlyOpen], skipping: [.newline]) else {
+            guard workingTokens.hasPrefixTypes(types: [.describe, .identifier, .curlyOpen], skipping: [.newline, .comment ]) else {
                 throw ZolangError(type: .unexpectedStartOfStatement(.modelDescription),
                                   file: context.file,
                                   line: context.line)
@@ -240,19 +240,6 @@ public indirect enum CodeBlock: Node {
             let environment = Environment()
             let templateString = try String(contentsOf: url, encoding: .utf8)
 
-            return try environment.renderTemplate(string: templateString,
-                                                  context: context)
-        case .comment(let str):
-            let context = [
-                "value": str
-            ]
-            
-            let url = URL(fileURLWithPath: buildSetting.stencilPath)
-                .appendingPathComponent("Comment.stencil")
-            
-            let environment = Environment()
-            let templateString = try String(contentsOf: url, encoding: .utf8)
-            
             return try environment.renderTemplate(string: templateString,
                                                   context: context)
         }
