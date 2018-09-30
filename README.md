@@ -35,9 +35,6 @@ As the language aims to be transpilable to virtually any other programming langu
 
 ## Roadmap / Upcoming Features
 
-- Access Levels (Scheduled v0.0.8 - Implemented)
-- Comments (Scheduled v0.0.8 - Implemented)
-- Default Values (Scheduled v0.0.8 - Implemented)
 - Hot reload (compilation) - (Scheduled v0.1.x)
 - Fetch [ZolangTemplates](https://github.com/Zolang/ZolangTemplates) from the Zolang CLI
 - Update Zolang from the Zolang CLI
@@ -49,9 +46,9 @@ As the language aims to be transpilable to virtually any other programming langu
 
 ### Installation
 
-#### If Xcode 9.2 is not Installed
+#### Linux
 
-[Download Zolang](https://github.com/Zolang/Zolang/releases/download/0.0.7/zolang)
+[Download Zolang](https://github.com/Zolang/Zolang/releases/download/0.0.8/zolang)
 
 Then setup Zolang as a command line tool locally
 
@@ -60,7 +57,9 @@ chmod +x $HOME/Downloads/Zolang
 mv $HOME/Downloads/Zolang /usr/local/bin
 ```
 
-#### Xcode 9.2 is Installed
+#### Mac
+
+If latest developer tools are not installed you might need to install Zolang like explained above under "Linux."
 
 ##### Using Mint (Recommended)
 If you don't have Mint you can get it from its [GitHub page](https://github.com/yonaskolb/mint)
@@ -74,7 +73,7 @@ mint install Zolang/Zolang
 ##### Build From Source
 
 ```
-g clone https://github.com/Zolang/Zolang
+git clone https://github.com/Zolang/Zolang
 cd Zolang
 swift build -c release -Xswiftc -static-stdlib
 cd .build/release
@@ -148,28 +147,17 @@ Notice the `./templates/swift` and `./templates/kotlin` This is the location of 
 
 > 😇 P.S. It only took around an hour to add the templates needed to be able to compile Zolang to both Kotlin and Swift! So you shouldn't restrain yourself from using Zolang if your favorite language is not yet supported. Just add it and continue hacking.
 
-#### Defining Models
+#### Your First Model Description
 
 We could create a file `./zolang/src/Person.zolang`
 
 ```zolang
-describe Person {
+describe Company {
 	name as text
-	street as text
-	number as number
-	friendNames as list of text
+  revenue as number
 
-	address return text from () {
-		let addr as text be "${street} ${number}"
-		print("Fetching address ${addr}")
-		return addr
-	}
-
-	speak return from (message as text) {
-		print("${name} says ${message}")
-	}
+  employeeNames as list of text default []
 }
-
 ```
 
 #### Building
@@ -223,7 +211,7 @@ Zolang currently only has one type to represent numbers.
 
 Numbers work just as you expect:
 
-```
+```zolang
 let num1 as number be 0.12345
 
 let num2 as number be 5
@@ -235,7 +223,7 @@ The same goes for lists they represent ... you guessed it, lists of data; and ar
 
 List literals are defined with a comma separated sequence of expressions wrapped inside enclosing brackets ```[...]``` 
 
-```
+```zolang
 let myList as list of text be [ "1", "2", "3" ]
 ```
 
@@ -260,7 +248,7 @@ NOTE! Watch out for precedence. Zolang offloads precedence handling to the langu
 
 Zolang currently only supports single line comments prefixed by `#`. Currently, comments are ignored in the build phase and can only be used to document Zolang code.
 
-```
+```zolang
 # This is a comment
 ```
 
@@ -301,6 +289,63 @@ while (i < person.friendNames.count) {
 	print(person.friendNames[i])
 	make i be i plus 1
 }
+```
+
+#### Describing a Model
+
+```zolang
+describe Person {
+	name as text 
+	street as text
+	number as number
+	friendNames as list of text
+}
+```
+
+Now like specified in the section on "Invoking Functions" you can create a `Person` by calling:
+
+```zolang
+let john as Person be Person("John", "Wall Street", 15, [ "Alice", "Bob" ])
+```
+
+##### Access Control
+
+It can be handy to be able to specify some ground rules as to what code can access what properties.
+
+If we look at `Person` example from above we might want to limit access to his address to be only accessable from within the `Person`'s description.
+
+This can be done by using the `private` access limitation specifier
+
+Currently supported access limitation specifiers are
+- `private`
+
+If nothing is specified the property/function will be declared public
+
+```zolang
+private street as text
+private number as number
+```
+
+##### Default Values
+
+Properties can also have default values
+
+```zolang
+private street as text default "John"
+```
+
+##### Static
+
+Zolang allows static declaration of properties/functions:
+
+```zolang
+static species as text default "Homo Sapiens"
+```
+
+This can then be accessed by calling:
+
+```zolang
+Person.species
 ```
 
 ## License
