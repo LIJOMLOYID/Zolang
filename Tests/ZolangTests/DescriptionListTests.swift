@@ -61,7 +61,7 @@ class DescriptionListTests: XCTestCase {
     }
     
     let mock1 = """
-    name as text default "yey"
+    private static name as text default "yey"
     friends as list of Person
     street as text
     private static house_number as number
@@ -79,7 +79,7 @@ class DescriptionListTests: XCTestCase {
     
     let expected1: (properties: [Property], functionReturnTypes: [Property]) = (
         [
-            (false, nil, "name", .primitive(.text), .textLiteral("yey")),
+            (true, "private", "name", .primitive(.text), .textLiteral("yey")),
             (false, nil, "friends", .list(.custom("Person")), nil),
             (false, nil, "street", .primitive(.text), nil),
             (true, "private", "house_number", .primitive(.number), nil),
