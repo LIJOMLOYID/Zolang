@@ -172,45 +172,6 @@ describe Person {
 
 ```
 
-#### Variable Declaration
-
-```zolang
-let person as Person be Person("John Doe", "John's Street", 8, [ "Todd" ])
-```
-
-#### Mutation
-
-```zolang
-make person.name be "Jane Doe"
-```
-
-#### Invoking Functions
-
-```zolang
-person.speak("My address is ${person.address()}")
-```
-
-#### Arithmetic
-
-Lets say we wanted to print something like `1 + 2 + (3 * 4) / 5`
-
-In Zolang this would be written:
-
-```zolang
-print("${1 plus 2 plus (3 times 4) over 5}")
-```
-
-#### Looping through Lists
-
-```zolang
-let i as number be 1
-
-while (i < person.friendNames.count) {
-	print(person.friendNames[i])
-	make i be i plus 1
-}
-```
-
 #### Building
 
 Just ...
@@ -221,7 +182,7 @@ zolang build
 
 ... and enjoy checking out the readable code generated to `./zolang/build/swift/Person.swift` and `./zolang/build/kotlin/Person.kt`
 
-### Further Overview
+### Language Overview
 
 #### Types
 
@@ -297,10 +258,49 @@ NOTE! Watch out for precedence. Zolang offloads precedence handling to the langu
 
 #### Comments
 
-Zolang currently only supports single line comments prefixed by `#`
+Zolang currently only supports single line comments prefixed by `#`. Currently, comments are ignored in the build phase and can only be used to document Zolang code.
 
 ```
 # This is a comment
+```
+
+#### Variable Declaration
+
+```zolang
+let person as Person be Person("John Doe", "John's Street", 8, [ "Todd" ])
+```
+
+#### Mutation
+
+```zolang
+make person.name be "Jane Doe"
+```
+
+#### Invoking Functions
+
+```zolang
+person.speak("My address is ${person.address()}")
+```
+
+#### Arithmetic
+
+Lets say we wanted to print something like `1 + 2 + (3 * 4) / 5`
+
+In Zolang this would be written:
+
+```zolang
+print("${1 plus 2 plus (3 times 4) over 5}")
+```
+
+#### Looping through Lists
+
+```zolang
+let i as number be 1
+
+while (i < person.friendNames.count) {
+	print(person.friendNames[i])
+	make i be i plus 1
+}
 ```
 
 ## License
