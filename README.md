@@ -5,34 +5,59 @@
 </p>
 
 ![alt text](https://github.com/Zolang/Zolang/blob/master/Images/zolang-banner.png "Zolang logo")
-# Zolang
 
+<b>Table of Contents</b>
+
+[What is it?](#What)
+
+[Why Zolang](#Why)
+
+[Name](#Name)
+
+[Roadmap](#Roadmap)
+
+[Documentation](#Docs)
+
+- [Installation](#Install)
+- [Getting Started](#GetStarted)
+- [Example](#Example)
+- [Language Overview](#Overview)
+
+[License](#License)
+
+# Zolang
+> A lightweight frontend for virtually any general purpose programming language.
+
+<a name="What"></a>
 ## What is it?
 
-Zolang is a programming language that serves as a code generation DSL and is as such theoretically transpilable to virtually any other programming language.
+Zolang is a programming language that serves as a code generation DSL and is theoretically through its capabilities transpilable to virtually any other programming language.
 
 Zolang does this by offloading code generation to its users through [Stencil (template language)](https://stencil.fuller.li/en/latest/) specification files.
 
-> Zolang is a lightweight frontend for virtually any general purpose programming language.
-
 Theoretically though, these (`.stencil`) specification files could make Zolang output any kind of text. Making the language a very useful code generation tool.
 
+<a name="Why"></a>
 ## Why Zolang?
 
 Zolang doesn't try to be a general purpose programming language, it is limited in features and is yet to have a standard library, so why use Zolang instead of other programming languages?
 
-### The Story Behind Zolang
+... for one, it's already transpilable to multiple languages, like Kotlin and Swift.
+
+### A User Story: The Story Behind Zolang
 
 The idea for Zolang came from within a fast moving startup. It was moving fast in the sense that the tech stack was rapidly changing every now and then, the product had projects in 4 languages, Swift, TypeScript, JavaScript and Ruby. All of which had duplications in definitions of models.
 
 So every time the tech stack changed drastically, changes had to be made in many of the (if not all four) implementations. So we wanted a language where we could write the model layer of our application with a single source of truth, generating code for all of our programming languages.
 
+<a name="Name"></a>
 ## Name
 
 I'm a Star Wars fan and in the Star Wars world Zolan is the home planet of a species called clawdites, who are known for their ability to transform their appearance to look like virtually any other creature.
 
 As the language aims to be transpilable to virtually any other programming language the clawdites came quickly to mind. Sadly the species doesn't have a catchy name, so I found myself falling back to their planet Zolan. And since this is a language and lang is often used as an abbreviation for language the "g" was soon to follow.
 
+<a name="Roadmap"></a>
 ## Roadmap / Upcoming Features
 
 - Hot reload (compilation) - (Scheduled v0.1.x)
@@ -42,11 +67,13 @@ As the language aims to be transpilable to virtually any other programming langu
 - For loop
 - Function mutation
 
+<a name="Docs"></a>
 ## Documentation
 
+<a name="Install"></a>
 ### Installation
 
-#### Linux
+#### Manual
 
 [Download Zolang](https://github.com/Zolang/Zolang/releases/download/0.0.8/zolang)
 
@@ -57,20 +84,18 @@ chmod +x $HOME/Downloads/Zolang
 mv $HOME/Downloads/Zolang /usr/local/bin
 ```
 
-#### Mac
+#### Using Mint (Recommended)
 
-If latest developer tools are not installed you might need to install Zolang like explained above under "Linux."
 
-##### Using Mint (Recommended)
-If you don't have Mint you can get it from its [GitHub page](https://github.com/yonaskolb/mint)
+If you don't have Mint you can get it from its [GitHub page](https://github.com/yonaskolb/mint). You'll need a Mac with the Xcode 9.2 or above
 
-Then install Zolang:
+When you've installed mint you can
 
 ```
 mint install Zolang/Zolang
 ```
 
-##### Build From Source
+#### Build From Source
 
 ```
 git clone https://github.com/Zolang/Zolang
@@ -86,6 +111,7 @@ cp -f Zolang /usr/local/bin/zolang
 zolang
 ```
 
+<a name="GetStarted"></a>
 ### Getting Started
 
 #### Setting up development environment
@@ -109,6 +135,7 @@ zolang init
 
 This will create a zolang.json file that will be used to specify build settings for your Zolang and setup the project's file structure.
 
+<a name="Example"></a>
 ### Example
 
 #### The Config File
@@ -153,7 +180,7 @@ We could create a file `./zolang/src/Person.zolang`
 
 ```zolang
 describe Company {
-	name as text
+  name as text
   revenue as number
 
   employeeNames as list of text default []
@@ -170,6 +197,7 @@ zolang build
 
 ... and enjoy checking out the readable code generated to `./zolang/build/swift/Person.swift` and `./zolang/build/kotlin/Person.kt`
 
+<a name="Overview"></a>
 ### Language Overview
 
 #### Types
@@ -252,57 +280,18 @@ Zolang currently only supports single line comments prefixed by `#`. Currently, 
 # This is a comment
 ```
 
-#### Variable Declaration
-
-```zolang
-let person as Person be Person("John Doe", "John's Street", 8, [ "Todd" ])
-```
-
-#### Mutation
-
-```zolang
-make person.name be "Jane Doe"
-```
-
-#### Invoking Functions
-
-```zolang
-person.speak("My address is ${person.address()}")
-```
-
-#### Arithmetic
-
-Lets say we wanted to print something like `1 + 2 + (3 * 4) / 5`
-
-In Zolang this would be written:
-
-```zolang
-print("${1 plus 2 plus (3 times 4) over 5}")
-```
-
-#### Looping through Lists
-
-```zolang
-let i as number be 1
-
-while (i < person.friendNames.count) {
-	print(person.friendNames[i])
-	make i be i plus 1
-}
-```
-
 #### Describing a Model
 
 ```zolang
 describe Person {
-	name as text 
-	street as text
-	number as number
-	friendNames as list of text
+  name as text 
+  street as text
+  number as number
+  friendNames as list of text
 }
 ```
 
-Now like specified in the section on "Invoking Functions" you can create a `Person` by calling:
+Now like you can create a `Person` by calling:
 
 ```zolang
 let john as Person be Person("John", "Wall Street", 15, [ "Alice", "Bob" ])
@@ -348,6 +337,73 @@ This can then be accessed by calling:
 Person.species
 ```
 
+#### Variable Declaration
+
+```zolang
+let person as Person be Person("John Doe", "John's Street", 8, [ "Todd" ])
+```
+
+#### Functions
+
+Functions in Zolang can be declared in a model description, in `Person`, the model we described above we could define a function address which would combine street and number as so:
+
+```zolang
+describe Person {
+  name as text 
+  street as text
+  number as number
+  friendNames as list of text
+  
+  address return text from () {
+    return "${street} ${number}"
+  }
+}
+```
+
+However this might not be able to be supported in all languages, many languages such as Python rely on an instanced being passed into the scope of the function to be able to read the model's properties. This function would be likely to throw an error in those languages as the function address never receives the instance being called upon.
+
+If you wanted to transpile Zolang to those types of languages, you would need to declare a function outside the model description:
+
+```zolang
+let address return text from (person as Person) {
+  return "${person.street} ${person.number}"
+}
+```
+
+#### Mutation
+
+```zolang
+make person.name be "Jane Doe"
+```
+
+#### Invoking Functions
+
+```zolang
+person.speak("My address is ${person.address()}")
+```
+
+#### Arithmetic
+
+Lets say we wanted to calculate something like `1 + 2 + (3 * 4) / 5`
+
+In Zolang this would be written:
+
+```zolang
+1 plus 2 plus (3 times 4) over 5
+```
+
+#### Looping through Lists
+
+```zolang
+let i as number be 1
+
+while (i < person.friendNames.count) {
+  print(person.friendNames[i])
+  make i be i plus 1
+}
+```
+
+<a name="License"></a>
 ## License
 
 MIT License
